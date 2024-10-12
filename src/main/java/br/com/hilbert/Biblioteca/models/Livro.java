@@ -21,7 +21,7 @@ public class Livro {
     private int anoPublicacao;
 
     @Column(name = "isbn", nullable = false, unique = true)
-    private int isbn;
+    private Integer isbn;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria", nullable = false)
@@ -71,11 +71,11 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    public int getIsbn() {
+    public Integer getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(Integer isbn) {
         this.isbn = isbn;
     }
 
