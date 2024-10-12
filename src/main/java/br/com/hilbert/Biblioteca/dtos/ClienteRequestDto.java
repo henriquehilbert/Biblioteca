@@ -14,6 +14,7 @@ public record ClienteRequestDto(String nome,
         cliente.setTelefone(this.telefone());
         cliente.setEmail(this.email());
         cliente.setApto(this.apto());
+
         return cliente;
     }
 }
