@@ -2,6 +2,8 @@ package br.com.hilbert.Biblioteca.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "livros")
 public class Livro {
@@ -26,6 +28,9 @@ public class Livro {
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria", nullable = false)
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
+    private List<Exemplar> exemplares;
 
     public Livro() {
     }
@@ -85,5 +90,13 @@ public class Livro {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Exemplar> getExemplares() {
+        return exemplares;
+    }
+
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
     }
 }

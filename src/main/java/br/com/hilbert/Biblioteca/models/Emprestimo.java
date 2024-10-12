@@ -13,11 +13,11 @@ public class Emprestimo {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exemplar_id")
+    @JoinColumn(name = "exemplar_id", nullable = false)
     private Exemplar exemplar;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @Column(name = "data", nullable = false)

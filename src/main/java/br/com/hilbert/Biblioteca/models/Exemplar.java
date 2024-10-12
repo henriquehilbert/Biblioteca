@@ -12,13 +12,13 @@ public class Exemplar {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "livro_id")
+    @JoinColumn(name = "livro_id", nullable = false)
     private Livro livro;
 
-    @Column(name = "ref")
-    private int referencia;
+    @Column(name = "ref", nullable = false)
+    private Integer referencia;
 
-    @Column(name = "disponivel")
+    @Column(name = "disponivel", nullable = false)
     private boolean disponivel;
 
     public Exemplar() {
@@ -47,11 +47,11 @@ public class Exemplar {
         this.livro = livro;
     }
 
-    public int getReferencia() {
+    public Integer getReferencia() {
         return referencia;
     }
 
-    public void setReferencia(int referencia) {
+    public void setReferencia(Integer referencia) {
         this.referencia = referencia;
     }
 

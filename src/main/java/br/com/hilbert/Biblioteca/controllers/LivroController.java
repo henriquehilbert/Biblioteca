@@ -27,7 +27,7 @@ public class LivroController {
                                                           @RequestParam(name = "quantidade", required = false, defaultValue = "5") int quantidade) {
         PageRequest pageRequest = PageRequest.of(numeroPagina, quantidade);
         return ResponseEntity.ok(livroRepository.findAll(pageRequest)
-                .map(livro -> LivroResponseDto.toDto(livro)));
+                .map(LivroResponseDto::toDto));
     }
     @GetMapping("{id}")
     public ResponseEntity<LivroResponseDto> findById(@PathVariable("id") Integer id) {
