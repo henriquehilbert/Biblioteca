@@ -27,7 +27,7 @@ public class ClienteController {
                                                             @RequestParam(name = "quantidade", required = false, defaultValue = "5") int quantidade) {
         PageRequest pageRequest = PageRequest.of(numeroPagina, quantidade);
         return ResponseEntity.ok(clienteRepository.findAll(pageRequest)
-                .map(cliente -> ClienteResponseDto.toDto(cliente)));
+                .map(ClienteResponseDto::toDto));
     }
     @GetMapping("{id}")
     public ResponseEntity<ClienteResponseDto> findById(@PathVariable("id") Integer id) {

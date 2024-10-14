@@ -2,7 +2,8 @@ package br.com.hilbert.Biblioteca.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "livros")
@@ -29,8 +30,8 @@ public class Livro {
     @Column(name = "categoria", nullable = false)
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
-    private List<Exemplar> exemplares;
+    @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
+    private Collection<Exemplar> exemplares = new ArrayList<>();
 
     public Livro() {
     }
@@ -92,11 +93,7 @@ public class Livro {
         this.categoria = categoria;
     }
 
-    public List<Exemplar> getExemplares() {
+    public Collection<Exemplar> getExemplares() {
         return exemplares;
-    }
-
-    public void setExemplares(List<Exemplar> exemplares) {
-        this.exemplares = exemplares;
     }
 }

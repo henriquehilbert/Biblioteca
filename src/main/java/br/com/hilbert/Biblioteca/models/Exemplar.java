@@ -11,14 +11,14 @@ public class Exemplar {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "livro_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_livro", nullable = false)
     private Livro livro;
 
     @Column(name = "ref", nullable = false)
     private Integer referencia;
 
-    @Column(name = "disponivel", nullable = false)
+    @Column(name = "disponivel")
     private boolean disponivel;
 
     public Exemplar() {

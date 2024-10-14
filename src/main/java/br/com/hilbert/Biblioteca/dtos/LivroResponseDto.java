@@ -11,6 +11,11 @@ public record LivroResponseDto(Integer id,
                                Categoria categoria) {
 
     public static LivroResponseDto toDto(Livro livro) {
-        return new LivroResponseDto(livro.getId(), livro.getNome(), livro.getAutor(), livro.getAnoPublicacao(), livro.getIsbn(), livro.getCategoria());
+        return new LivroResponseDto(livro.getId(),
+                                    livro.getNome(),
+                                    livro.getAutor(),
+                                    livro.getAnoPublicacao(),
+                                    livro.getIsbn(),
+                                    livro.getCategoria());
     }
 }

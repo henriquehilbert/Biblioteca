@@ -22,6 +22,7 @@ public class LivroController {
     public LivroController(LivroRepository livroRepository) {
         this.livroRepository = livroRepository;
     }
+
     @GetMapping
     public ResponseEntity<Page<LivroResponseDto>> findAll(@RequestParam(name = "numeroPagina", required = false, defaultValue = "0") int numeroPagina,
                                                           @RequestParam(name = "quantidade", required = false, defaultValue = "5") int quantidade) {
@@ -64,5 +65,4 @@ public class LivroController {
     public void delete(@PathVariable("id") Integer id) {
         livroRepository.deleteById(id);
     }
-
 }
