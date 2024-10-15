@@ -3,7 +3,7 @@ package br.com.hilbert.Biblioteca.controllers;
 import br.com.hilbert.Biblioteca.dtos.EmprestimoRequestDto;
 import br.com.hilbert.Biblioteca.dtos.EmprestimoResponseDto;
 import br.com.hilbert.Biblioteca.exceptions.ClienteInaptoException;
-import br.com.hilbert.Biblioteca.exceptions.ExemplarNaoDisponivelException;
+import br.com.hilbert.Biblioteca.exceptions.ExemplarIndisponivelException;
 import br.com.hilbert.Biblioteca.models.Cliente;
 import br.com.hilbert.Biblioteca.models.Emprestimo;
 import br.com.hilbert.Biblioteca.models.Exemplar;
@@ -63,7 +63,7 @@ public class EmprestimoController {
         Exemplar exemplar = exemplarOpt.get();
 
         if (!exemplar.isDisponivel()) {
-            throw new ExemplarNaoDisponivelException("Este exemplar não está disponível para empréstimo.", 1001);
+            throw new ExemplarIndisponivelException("Este exemplar não está disponível para empréstimo.", 1001);
             //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 

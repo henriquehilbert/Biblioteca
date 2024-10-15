@@ -12,7 +12,7 @@ public class Emprestimo {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_exemplar", nullable = false)
     private Exemplar exemplar;
 
