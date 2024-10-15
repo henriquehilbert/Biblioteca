@@ -1,5 +1,6 @@
 package br.com.hilbert.Biblioteca.configs;
 
+import br.com.hilbert.Biblioteca.exceptions.ClienteInaptoException;
 import br.com.hilbert.Biblioteca.exceptions.RegraNegocioException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,7 +23,7 @@ public class ExceptionHandlerMapper {
         problemDetail.setTitle("Entidade não encontrada");
         problemDetail.setDetail(ex.getMessage());
 
-        problemDetail.setProperty("dataHoraErro", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        problemDetail.setProperty("dataHoraErro", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm")));
 
         return ResponseEntity.of(problemDetail).build();
     }
@@ -30,10 +31,10 @@ public class ExceptionHandlerMapper {
     @ExceptionHandler(RegraNegocioException.class)
     public ResponseEntity<ProblemDetail> handle(RegraNegocioException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(404);
-        problemDetail.setTitle("Operação não pode ser concluída.");
+        problemDetail.setTitle("Operação não pôde ser concluída.");
         problemDetail.setDetail(ex.getMessage());
 
-        problemDetail.setProperty("dataHoraErro", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        problemDetail.setProperty("dataHoraErro", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm")));
         problemDetail.setProperty("numeroRegraNegocio", ex.getNumeroRegraNegocio());
 
         return ResponseEntity.of(problemDetail).build();
@@ -48,30 +49,21 @@ public class ExceptionHandlerMapper {
         return problemDetail;
     }
 
+    @ExceptionHandler(ClienteInaptoException.class)
+    public ProblemDetail handleClienteInaptoException(ClienteInaptoException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus
+                .BAD_REQUEST, "Este cliente não está apto para realizar empréstimos.");
+        problemDetail.setTitle("Cliente Inapto");
+        problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/cliente-inapto"));
+        return problemDetail;
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus
                 .INTERNAL_SERVER_ERROR, ex.getMessage());
         problemDetail.setTitle("Erro interno do servidor");
         problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/erro-interno"));
-        return problemDetail;
-    }
-
-    @ExceptionHandler(RegraNegocioException.class)
-    public ProblemDetail handleRegraNegocioException(RegraNegocioException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus
-                .BAD_REQUEST, ex.getMessage());
-        problemDetail.setTitle("Violação de regra de negócio");
-        problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/regra-negocio"));
-        return problemDetail;
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ProblemDetail handleEntityNotFoundException(EntityNotFoundException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus
-                .NOT_FOUND, ex.getMessage());
-        problemDetail.setTitle("Entidade não encontrada");
-        problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/entidade-nao-encontrada"));
         return problemDetail;
     }
 }

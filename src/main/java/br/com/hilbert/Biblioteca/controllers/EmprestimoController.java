@@ -2,6 +2,8 @@ package br.com.hilbert.Biblioteca.controllers;
 
 import br.com.hilbert.Biblioteca.dtos.EmprestimoRequestDto;
 import br.com.hilbert.Biblioteca.dtos.EmprestimoResponseDto;
+import br.com.hilbert.Biblioteca.exceptions.ClienteInaptoException;
+import br.com.hilbert.Biblioteca.exceptions.ExemplarNaoDisponivelException;
 import br.com.hilbert.Biblioteca.models.Cliente;
 import br.com.hilbert.Biblioteca.models.Emprestimo;
 import br.com.hilbert.Biblioteca.models.Exemplar;
@@ -61,7 +63,8 @@ public class EmprestimoController {
         Exemplar exemplar = exemplarOpt.get();
 
         if (!exemplar.isDisponivel()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            throw new ExemplarNaoDisponivelException("Este exemplar não está disponível para empréstimo.", 1001);
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
         Optional<Cliente> clienteOpt = clienteRepository.findById(dto.clienteId());
@@ -71,7 +74,7 @@ public class EmprestimoController {
         Cliente cliente = clienteOpt.get();
 
         if (!cliente.isApto()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            throw new ClienteInaptoException("Este cliente não está apto para realizar empréstimos.", 1002);
         }
 
         Emprestimo emprestimo = dto.toEmprestimo(new Emprestimo(), exemplarRepository, clienteRepository);
@@ -79,7 +82,6 @@ public class EmprestimoController {
         exemplar.setDisponivel(false);
         exemplarRepository.save(exemplar);
 
-        // Salvar o empréstimo
         emprestimoRepository.save(emprestimo);
 
         return ResponseEntity
