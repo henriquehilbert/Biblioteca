@@ -1,6 +1,7 @@
 package br.com.hilbert.Biblioteca.configs;
 
 import br.com.hilbert.Biblioteca.exceptions.ClienteInaptoException;
+import br.com.hilbert.Biblioteca.exceptions.ExemplarIndisponivelException;
 import br.com.hilbert.Biblioteca.exceptions.RegraNegocioException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -55,6 +56,15 @@ public class ExceptionHandlerMapper {
                 .BAD_REQUEST, "Este cliente não está apto para realizar empréstimos.");
         problemDetail.setTitle("Cliente Inapto");
         problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/cliente-inapto"));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ExemplarIndisponivelException.class)
+    public ProblemDetail handleExemplarIndisponivelException(ExemplarIndisponivelException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus
+                .BAD_REQUEST, "Este exemplar não está disponível para empréstimo.");
+        problemDetail.setTitle("Exemplar Indisponível");
+        problemDetail.setType(URI.create("https://api.biblioteca.com.br/problemas/exemplar-indisponivel"));
         return problemDetail;
     }
 

@@ -49,7 +49,7 @@ public class ExemplarController {
 
     @PostMapping
     public ResponseEntity<ExemplarResponseDto> save(@RequestBody ExemplarRequestDto dto) {
-        // Buscar o livro pelo id informado no DTO
+
         Optional<Livro> livroOpt = livroRepository.findById(dto.idLivro());
         if (livroOpt.isEmpty()) {
             throw new EntityNotFoundException("Livro não encontrado.");
